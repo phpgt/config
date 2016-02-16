@@ -56,4 +56,4 @@ public static function createConfigFile($dir, $ext = Config::TYPE_INI) {
 	return $filePath;
 }
 
-}#phpinfo()
+}#
