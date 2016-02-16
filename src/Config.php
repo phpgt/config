@@ -1,6 +1,7 @@
 <?php
-
 namespace phpgt\config;
+
+use ArrayObject;
 
 class Config {
 
@@ -58,9 +59,13 @@ private function findFilePath() {
  * Called after parsing, sets the environment variables. All variables that are
  * set are stored in the variable array, so they can be unset later.
  */
-private function setEnvironmentVariables(array $valueArray) {
+private function setEnvironmentVariables(ArrayObject $valueArray) {
 	foreach ($valueArray as $key => $value) {
 		// TODO: Recursively iterate over nested array: issue #12
+		if(!is_string($value)) {
+			// Currently skips non-string values until #12 is implemented.
+			continue;
+		}
 		$this->valueArray []= $key;
 		if(!putenv("$key=$value")) {
 			throw new ConfigException(

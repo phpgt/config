@@ -18,7 +18,7 @@ public function parse() {
 
 	switch ($ext) {
 	case Config::TYPE_INI:
-		$parser = new IniParser();
+		$parser = new IniParser($this->fileInfo->getPathname());
 		$this->valueArray = $parser->parse();
 		break;
 
