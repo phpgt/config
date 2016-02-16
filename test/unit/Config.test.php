@@ -45,4 +45,33 @@ public function testPrefix() {
 	$this->assertEmpty(getenv("another_key"));
 }
 
+public function testSeparator() {
+	$this->filePath = test\Helper::createConfigFile(
+		$this->tmp, Config::TYPE_INI);
+	$baseName = pathinfo($this->filePath, PATHINFO_BASENAME);
+
+	$config = new Config(false, $baseName, $this->tmp);
+	$config->setPrefix("testprefix");
+	$config->setSeparator(":");
+
+	$this->assertEquals("value", getenv("testprefix:key"));
+	$this->assertEquals("another value", getenv("testprefix:another_key"));
+
+	$config->setSeparator("/");
+	$this->assertEquals("value", getenv("testprefix/key"));
+	$this->assertEquals("another value", getenv("testprefix/another_key"));
+
+	$config->setSeparator("__");
+	$this->assertEquals("value", getenv("testprefix__key"));
+	$this->assertEquals("another value", getenv("testprefix__another_key"));
+
+	// Have the non-prefixed keys been removed?
+	$this->assertEmpty(getenv("key"));
+	$this->assertEmpty(getenv("another_key"));
+	$this->assertEmpty(getenv("testprefix.key"));
+	$this->assertEmpty(getenv("testprefix.another_key"));
+	$this->assertEmpty(getenv("testprefix:key"));
+	$this->assertEmpty(getenv("testprefix:another_key"));
+}
+
 }#

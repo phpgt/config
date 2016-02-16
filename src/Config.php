@@ -19,6 +19,7 @@ const FILE_TYPES = [
 ];
 
 private $kvp;
+private $originalKvp;
 
 private $findInTree;
 private $fileName;
@@ -45,7 +46,8 @@ bool $findInTree = false, string $fileName = "config", string $dirPath = "") {
 	$this->findFilePath();
 	$parser = new Parser($this->filePath);
 	$parser->parse();
-	$this->setEnvironmentVariables($parser->getValueArray());
+	$this->originalKvp = $parser->getValueArray();
+	$this->setEnvironmentVariables($this->originalKvp);
 }
 
 /**
@@ -66,7 +68,7 @@ private function setEnvironmentVariables(ArrayObject $valueArray) {
 
 	foreach ($valueArray as $key => $value) {
 		if(!empty($this->prefix)) {
-			$key = implode(".", [
+			$key = implode($this->separator, [
 				$this->prefix,
 				$key,
 			]);
@@ -117,7 +119,7 @@ public function unset() {
  */
 public function setPrefix(string $prefix) {
 	$this->prefix = $prefix;
-	$this->setEnvironmentVariables($this->kvp);
+	$this->setEnvironmentVariables($this->originalKvp);
 }
 
 /**
@@ -126,7 +128,8 @@ public function setPrefix(string $prefix) {
  * @param string $separator
  */
 public function setSeparator(string $separator) {
-
+	$this->separator = $separator;
+	$this->setEnvironmentVariables($this->originalKvp);
 }
 
 }#
