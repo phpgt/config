@@ -11,8 +11,23 @@ private $fileName;
 private $prefix = "";
 private $separator = ".";
 
-public function __construct(string $path) {
+public function __construct(string $fileName = "config", string $path = "") {
+	if(empty($path)) {
+		$path = getcwd();
+	}
 
+	$this->path = $path;
+	$this->fileName = $fileName;
+
+	$this->findFile();
+}
+
+/**
+ * Uses the FileFinder class to attempt to find a config file to parse.
+ */
+private function findFile() {
+	$fileFinder = new FileFinder($this->path, $this->fileName);
+	$this->filePath = $fileFinder->getFilePath();
 }
 
 private function parse() {
