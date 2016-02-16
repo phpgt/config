@@ -5,12 +5,16 @@ namespace phpgt\config;
 class Config {
 
 const TYPE_INI = "ini";
+const TYPE_YAML = "yml";
+const TYPE_JSON = "json";
+const TYPE_XML = "xml";
 
+// Allow iteration:
 const FILE_TYPES = [
-	TYPE_INI,
-	"yaml",
-	"json",
-	"xml",
+	self::TYPE_INI,
+	self::TYPE_YAML,
+	self::TYPE_JSON,
+	self::TYPE_XML,
 ];
 
 private $variableArray;
@@ -19,6 +23,8 @@ private $findInTree;
 private $fileName;
 private $dirPath;
 private $filePath;
+
+private $parser;
 
 private $prefix = "";
 private $separator = ".";
@@ -34,8 +40,9 @@ bool $findInTree = false, string $fileName = "config", string $dirPath = "") {
 	$this->dirPath = $dirPath;
 
 	$this->findFilePath();
-	$this->parse();
-	$this->setEnvironmentVariables();
+	$parser = new Parser($this->filePath);
+	$parser->parse();
+	$this->setEnvironmentVariables($parser->getValueArray());
 }
 
 /**
@@ -48,18 +55,18 @@ private function findFilePath() {
 }
 
 /**
- * Perform the parsing of the current filePath;
+ * Called after parsing, sets the environment variables. All variables that are
+ * set are stored in the variable array, so they can be unset later.
  */
-private function parse() {
-
-}
-
-/**
- * Called after parsing, sets the environment variables. All variables set are
- * stored in the variable array, so they can be unset later.
- */
-private function setEnvironmentVariables() {
-
+private function setEnvironmentVariables(array $valueArray) {
+	foreach ($valueArray as $key => $value) {
+		// TODO: Recursively iterate over nested array: issue #12
+		$this->valueArray []= $key;
+		if(!putenv("$key=$value")) {
+			throw new ConfigException(
+				"Error setting environment variable $key");
+		}
+	}
 }
 
 /**
