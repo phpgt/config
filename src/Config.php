@@ -18,7 +18,7 @@ const FILE_TYPES = [
 	self::TYPE_XML,
 ];
 
-private $variableArray;
+private $kvp;
 
 private $findInTree;
 private $fileName;
@@ -60,13 +60,21 @@ private function findFilePath() {
  * set are stored in the variable array, so they can be unset later.
  */
 private function setEnvironmentVariables(ArrayObject $valueArray) {
+	$this->kvp = new ArrayObject();
+
 	foreach ($valueArray as $key => $value) {
+		if(!empty($this->prefix)) {
+			$key = implode(".", [
+				$this->prefix,
+				$key,
+			]);
+		}
 		// TODO: Recursively iterate over nested array: issue #12
 		if(!is_string($value)) {
 			// Currently skips non-string values until #12 is implemented.
 			continue;
 		}
-		$this->valueArray []= $key;
+		$this->kvp[$key] = $value;
 		if(!putenv("$key=$value")) {
 			throw new ConfigException(
 				"Error setting environment variable $key");
@@ -89,7 +97,8 @@ public function unset() {
  * @param string $prefix
  */
 public function setPrefix(string $prefix) {
-
+	$this->prefix = $prefix;
+	$this->setEnvironmentVariables($this->kvp);
 }
 
 /**
