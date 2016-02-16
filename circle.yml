@@ -4,4 +4,4 @@ machine:
 
 test:
   override:
-    - cd test && ../vendor/bin/phpunit
+    - vendor/bin/phpunit -c test/phpunit.xml
