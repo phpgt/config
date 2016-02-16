@@ -4,32 +4,52 @@ namespace phpgt\config;
 
 class Config {
 
+const TYPE_INI = "ini";
+
+const FILE_TYPES = [
+	TYPE_INI,
+	"yaml",
+	"json",
+	"xml",
+];
+
 private $variableArray;
-private $path;
+
+private $findInTree;
 private $fileName;
+private $dirPath;
+private $filePath;
 
 private $prefix = "";
 private $separator = ".";
 
-public function __construct(string $fileName = "config", string $path = "") {
-	if(empty($path)) {
-		$path = getcwd();
+public function __construct(
+bool $findInTree = false, string $fileName = "config", string $dirPath = "") {
+	if(empty($dirPath)) {
+		$dirPath = getcwd();
 	}
 
-	$this->path = $path;
+	$this->findInTree = $findInTree;
 	$this->fileName = $fileName;
+	$this->dirPath = $dirPath;
 
-	$this->findFile();
+	$this->findFilePath();
+	$this->parse();
+	$this->setEnvironmentVariables();
 }
 
 /**
  * Uses the FileFinder class to attempt to find a config file to parse.
  */
-private function findFile() {
-	$fileFinder = new FileFinder($this->path, $this->fileName);
+private function findFilePath() {
+	$fileFinder = new FileFinder(
+		$this->findInTree, $this->dirPath, $this->fileName);
 	$this->filePath = $fileFinder->getFilePath();
 }
 
+/**
+ * Perform the parsing of the current filePath;
+ */
 private function parse() {
 
 }
