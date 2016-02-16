@@ -39,6 +39,10 @@ public function testPrefix() {
 
 	$this->assertEquals("value", getenv("testprefix.key"));
 	$this->assertEquals("another value", getenv("testprefix.another_key"));
+
+	// Have the non-prefixed keys been removed?
+	$this->assertEmpty(getenv("key"));
+	$this->assertEmpty(getenv("another_key"));
 }
 
 }#

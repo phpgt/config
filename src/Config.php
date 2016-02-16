@@ -36,6 +36,8 @@ bool $findInTree = false, string $fileName = "config", string $dirPath = "") {
 		$dirPath = getcwd();
 	}
 
+	$this->kvp = new ArrayObject();
+
 	$this->findInTree = $findInTree;
 	$this->fileName = $fileName;
 	$this->dirPath = $dirPath;
@@ -60,7 +62,7 @@ private function findFilePath() {
  * set are stored in the variable array, so they can be unset later.
  */
 private function setEnvironmentVariables(ArrayObject $valueArray) {
-	$this->kvp = new ArrayObject();
+	$this->unset();
 
 	foreach ($valueArray as $key => $value) {
 		if(!empty($this->prefix)) {
@@ -86,7 +88,24 @@ private function setEnvironmentVariables(ArrayObject $valueArray) {
  * Removes all environment variables that have been set by the current object.
  */
 public function unset() {
+	if(empty($this->kvp)) {
+		return;
+	}
 
+	foreach ($this->kvp as $key => $value) {
+		// TODO: Recursively iterate over nested array: issue #12
+		if(!is_string($value)) {
+			// Currently skips non-string values until #12 is implemented.
+			continue;
+		}
+
+		if(!putenv($key)) {
+			throw new ConfigException(
+				"Error removing environment variable $key");
+		}
+	}
+
+	$this->kvp = new ArrayObject();
 }
 
 /**
