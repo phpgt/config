@@ -4,9 +4,51 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "fa8cacf0630fd62fe3852d86dec65888",
-    "content-hash": "6360c7b17347361dae5e190a8d87ad34",
-    "packages": [],
+    "hash": "8c06228d5e088ebc14a8f02cec43ffd9",
+    "content-hash": "1ad7c5057963242d9f7a42333ed47180",
+    "packages": [
+        {
+            "name": "austinhyde/iniparser",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/austinhyde/IniParser.git",
+                "reference": "3b5a925ac99619d198d8ff93958913ca3311f266"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/austinhyde/IniParser/zipball/3b5a925ac99619d198d8ff93958913ca3311f266",
+                "reference": "3b5a925ac99619d198d8ff93958913ca3311f266",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "IniParser": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Till Klampaeckel",
+                    "email": "till@php.net",
+                    "homepage": "http://till.klampaeckel.de/"
+                },
+                {
+                    "name": "Austin Hyde",
+                    "email": "austin109@gmail.com"
+                }
+            ],
+            "description": "A Zend_Config_Ini like parser for .ini files.",
+            "keywords": [
+                "configuration"
+            ],
+            "time": "2014-04-12 14:28:42"
+        }
+    ],
     "packages-dev": [
         {
             "name": "doctrine/instantiator",
@@ -458,16 +500,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "5.2.5",
+            "version": "5.2.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "db79855b229d4bbcdc055ad74c5dc20ad3f5c5fe"
+                "reference": "98f5f048c0c20b823a897eca14f0b57ca47d8066"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/db79855b229d4bbcdc055ad74c5dc20ad3f5c5fe",
-                "reference": "db79855b229d4bbcdc055ad74c5dc20ad3f5c5fe",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/98f5f048c0c20b823a897eca14f0b57ca47d8066",
+                "reference": "98f5f048c0c20b823a897eca14f0b57ca47d8066",
                 "shasum": ""
             },
             "require": {
@@ -528,7 +570,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2016-02-13 06:58:29"
+            "time": "2016-02-16 17:42:12"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
@@ -1104,7 +1146,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "austinhyde/iniparser": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
