@@ -1,5 +1,4 @@
-# phpgt config
-Load environment variables
+# Configuration file handling for PHP 7 projects.
 
 ***
 
