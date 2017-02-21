@@ -1,5 +1,5 @@
 <?php
-namespace phpgt\config;
+namespace Gt\Config;
 
 /**
  * The FileFinder searches the provided path for config files that match a

@@ -1,5 +1,5 @@
 <?php
-namespace phpgt\config;
+namespace Gt\Config;
 
 use SplFileInfo as FileInfo;
 use IniParser;

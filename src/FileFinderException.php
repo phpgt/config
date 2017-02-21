@@ -1,4 +1,4 @@
 <?php
-namespace phpgt\config;
+namespace Gt\Config;
 
 class FileFinderException extends \Exception {}#
