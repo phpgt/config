@@ -1,6 +1,6 @@
 {
     "name": "phpgt/config",
-    "description": "Load environment variables",
+    "description": "Load configuration from ini files or environment variables.",
     "type": "library",
 
     "require": {
@@ -22,7 +22,7 @@
 
     "autoload": {
         "psr-4": {
-            "phpgt\\config\\": "./src"
+            "Gt\\Config\\": "./src"
         }
     }
 }
