@@ -2,6 +2,6 @@
 namespace Gt\Config;
 
 class Config {
-	public function __construct() {
+	public function __construct(array $env) {
 	}
 }
