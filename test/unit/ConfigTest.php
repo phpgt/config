@@ -15,27 +15,24 @@ class ConfigTest extends TestCase {
 		Helper::removeTmpDir();
 	}
 
-	public function testEnvVarNotPresentByDefault() {
+	public function testNotPresentByDefault() {
 		$config = new Config();
-		$this->assertNull($config->get("OS"));
+		$this->assertNull($config->get(uniqid()));
 	}
 
 	public function testEnvVarPresentWithEnv() {
-		$config = new Config($_ENV);
-		$this->assertNotNull($config->get("OS"));
+		putenv("my-env-var=example");
+
+		$config = new Config();
+		$this->assertNotNull($config->get("my-env-var"));
 	}
 
 	public function testGet() {
 		$key = uniqid();
 		$value = uniqid();
-		$config = new Config([$key => $value]);
-		self::assertEquals($value, $config->get($key));
-	}
+		putenv("$key=$value");
 
-	public function testGetCaseInsensitive() {
-		$key = "aAaAaAaA";
-		$value = 12345;
-		$config = new Config([$key => $value]);
-		self::assertEquals($value, $config->get(strtolower($key)));
+		$config = new Config();
+		self::assertEquals($value, $config->get($key));
 	}
 }
