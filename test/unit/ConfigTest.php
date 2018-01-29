@@ -6,9 +6,12 @@ use Gt\Config\Test\Helper\Helper;
 use PHPUnit\Framework\TestCase;
 
 class ConfigTest extends TestCase {
+	protected $tmp;
+
 	public function setUp() {
 		Helper::removeTmpDir();
-		mkdir(Helper::getTmpDir(), 0775, true);
+		$this->tmp = Helper::getTmpDir();
+		mkdir($this->tmp, 0775, true);
 	}
 
 	public function tearDown() {
@@ -34,5 +37,17 @@ class ConfigTest extends TestCase {
 
 		$config = new Config();
 		self::assertEquals($value, $config->get($key));
+	}
+
+	public function testLoadFromIni() {
+		$filePath = implode(DIRECTORY_SEPARATOR, [
+			$this->tmp,
+			"config.ini",
+		]);
+		file_put_contents($filePath, Helper::INI_SIMPLE);
+		$config = new Config($this->tmp);
+		self::assertEquals("ExampleApp", $config->get("app.namespace"));
+		self::assertNull($config->get("app.nothing"));
+		self::assertNull($config->get("app"));
 	}
 }

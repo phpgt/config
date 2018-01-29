@@ -2,6 +2,19 @@
 namespace Gt\Config\Test\Helper;
 
 class Helper {
+	const INI_SIMPLE = <<<INI
+[app]
+namespace=ExampleApp
+
+[block1]
+; This is a comment
+value = 123
+; Another comment
+valueNoSpaces=456
+value.nested = 789
+value.nested.again = 0123456789
+INI;
+
 	public static function getBaseTmpDir() {
 		return implode(DIRECTORY_SEPARATOR, [
 			sys_get_temp_dir(),
