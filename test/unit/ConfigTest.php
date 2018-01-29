@@ -50,4 +50,18 @@ class ConfigTest extends TestCase {
 		self::assertNull($config->get("app.nothing"));
 		self::assertNull($config->get("app"));
 	}
+
+	public function testEnvOverride() {
+		putenv("app.namespace=ExampleAppChanged");
+		putenv("app.nothing=Something");
+
+		$filePath = implode(DIRECTORY_SEPARATOR, [
+			$this->tmp,
+			"config.ini",
+		]);
+		file_put_contents($filePath, Helper::INI_SIMPLE);
+		$config = new Config($this->tmp);
+		self::assertEquals("ExampleAppChanged", $config->get("app.namespace"));
+		self::assertEquals("Something", $config->get("app.nothing"));
+	}
 }
