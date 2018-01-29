@@ -23,10 +23,9 @@ nginx.conf:
 ```
 location ~ \.php$ {
 	fastcgi_pass	unix:/var/run/php/php7.0-fpm.sock;
-	fastcgi_param	database_password		super-secret-passw0rd;
-	include			fastcgi_params;
+	fastcgi_param	database_password	super-secret-passw0rd;
+	include		fastcgi_params;
 }
-
 ```
 
 config.ini:
@@ -52,16 +51,12 @@ example.php:
 
 ```php
 // Load config.ini
-$config = new Config("config.ini", [
-	"database" => [
-		"host" => "localhost",
-		"port" => 6612
-	]
-]);
+$config = new Config("/path/to/project");
 
-echo $config["database"]->host;		// db.example.com
-echo $config["database"]->port;		// 6612
-echo $config["database"]->password;	// super-secret-passw0rd
+// Note that the database password is overriden in the environment (from nginx).
+echo $config->get("database.host");		// db.example.com
+echo $config->get("database.port");		// 6612
+echo $config->get("database.password");		// super-secret-passw0rd
 ```
 
 ## Features at a glance
