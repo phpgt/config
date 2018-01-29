@@ -6,14 +6,14 @@ Documentation: https://php.gt/docs/config
 
 ***
 
-<a href="https://circleci.com/gh/phpgt/config" target="_blank">
-    <img src="https://img.shields.io/circleci/project/phpgt/config.svg?style=flat-square" alt="Build status" />
+<a href="https://circleci.com/gh/PhpGt/Config" target="_blank">
+    <img src="https://img.shields.io/circleci/project/PhpGt/Config.svg?style=flat-square" alt="Build status" />
 </a>
-<a href="https://scrutinizer-ci.com/g/phpgt/config" target="_blank">
-    <img src="https://img.shields.io/scrutinizer/g/phpgt/config.svg?style=flat-square" alt="Code quality" />
+<a href="https://scrutinizer-ci.com/g/PhpGt/Config" target="_blank">
+    <img src="https://img.shields.io/scrutinizer/g/PhpGt/Config.svg?style=flat-square" alt="Code quality" />
 </a>
-<a href="https://scrutinizer-ci.com/g/phpgt/config" target="_blank">
-    <img src="https://img.shields.io/scrutinizer/coverage/g/phpgt/config.svg?style=flat-square" alt="Code coverage" />
+<a href="https://scrutinizer-ci.com/g/PhpGt/Config" target="_blank">
+    <img src="https://img.shields.io/scrutinizer/coverage/g/PhpGt/Config.svg?style=flat-square" alt="Code coverage" />
 </a>
 
 ## Example usage:
