@@ -5,16 +5,18 @@ class Config {
 	protected $kvp = [];
 
 	public function __construct(
-		array $env,
-		string $projectRoot,
+		array $env = [],
+		string $projectRoot = "",
 		string $filename = "config.ini"
 	) {
 		$iniConfig = $this->loadIni($projectRoot, $filename);
 		$iniConfig = array_change_key_case($iniConfig, CASE_UPPER);
+		$env = array_change_key_case($env, CASE_UPPER);
 		$this->kvp = array_merge($iniConfig, $env);
 	}
 
 	public function get(string $name):?string {
+		$name = strtoupper($name);
 		return $this->kvp[$name] ?? null;
 	}
 

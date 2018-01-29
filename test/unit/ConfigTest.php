@@ -16,12 +16,26 @@ class ConfigTest extends TestCase {
 	}
 
 	public function testEnvVarNotPresentByDefault() {
-		$config = new Config([], "");
+		$config = new Config();
 		$this->assertNull($config->get("OS"));
 	}
 
 	public function testEnvVarPresentWithEnv() {
-		$config = new Config($_ENV, "");
+		$config = new Config($_ENV);
 		$this->assertNotNull($config->get("OS"));
+	}
+
+	public function testGet() {
+		$key = uniqid();
+		$value = uniqid();
+		$config = new Config([$key => $value]);
+		self::assertEquals($value, $config->get($key));
+	}
+
+	public function testGetCaseInsensitive() {
+		$key = "aAaAaAaA";
+		$value = 12345;
+		$config = new Config([$key => $value]);
+		self::assertEquals($value, $config->get(strtolower($key)));
 	}
 }
