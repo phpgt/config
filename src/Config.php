@@ -15,6 +15,18 @@ class Config {
 		$this->delimeter = $delimeter;
 	}
 
+	public function setDefault(
+		string $defaultDirectoryPath,
+		string $filename = "config.default.ini"
+	):void {
+		$defaults = $this->loadIni(
+			$defaultDirectoryPath,
+			$filename
+		);
+
+		$this->kvp = array_merge($defaults, $this->kvp);
+	}
+
 	public function get(string $name):?string {
 		$env = getenv($name);
 		if($env) {
@@ -22,6 +34,14 @@ class Config {
 		}
 
 		return $this->getSectionValue($name);
+	}
+
+	public function getSection(string $sectionName):?ConfigSection {
+		if(!isset($this->kvp[$sectionName])) {
+			return null;
+		}
+
+		return new ConfigSection($this->kvp[$sectionName]);
 	}
 
 	protected function getSectionValue(string $name):?string {
@@ -42,10 +62,10 @@ class Config {
 		return $current;
 	}
 
-	protected function loadIni(string $projectRoot, string $filename):array {
+	protected function loadIni(string $directoryPath, string $filename):array {
 		$kvp = [];
 
-		$iniPath = $projectRoot . DIRECTORY_SEPARATOR . $filename;
+		$iniPath = $directoryPath . DIRECTORY_SEPARATOR . $filename;
 
 		if(is_file($iniPath)) {
 			$kvp = parse_ini_file($iniPath, true);
