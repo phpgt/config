@@ -7,13 +7,19 @@ Documentation: https://php.gt/docs/config
 ***
 
 <a href="https://circleci.com/gh/PhpGt/Config" target="_blank">
-    <img src="https://img.shields.io/circleci/project/PhpGt/Config.svg?style=flat-square" alt="Build status" />
+	<img src="https://badge.status.php.gt/config-build.svg" alt="Build status" />
 </a>
 <a href="https://scrutinizer-ci.com/g/PhpGt/Config" target="_blank">
-    <img src="https://img.shields.io/scrutinizer/g/PhpGt/Config.svg?style=flat-square" alt="Code quality" />
+	<img src="https://badge.status.php.gt/config-quality.svg" alt="Code quality" />
 </a>
 <a href="https://scrutinizer-ci.com/g/PhpGt/Config" target="_blank">
-    <img src="https://img.shields.io/scrutinizer/coverage/g/PhpGt/Config.svg?style=flat-square" alt="Code coverage" />
+	<img src="https://badge.status.php.gt/config-coverage.svg" alt="Code coverage" />
+</a>
+<a href="https://packagist.org/packages/PhpGt/Config" target="_blank">
+	<img src="https://badge.status.php.gt/config-version.svg" alt="Current version" />
+</a>
+<a href="http://www.php.gt/config" target="_blank">
+	<img src="https://badge.status.php.gt/config-docs.svg" alt="PHP.Gt/Config documentation" />
 </a>
 
 ## Example usage:

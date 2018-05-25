@@ -24,7 +24,17 @@ class Config {
 			$filename
 		);
 
-		$this->kvp = array_merge($defaults, $this->kvp);
+		foreach($defaults as $section => $data) {
+			foreach($data as $key => $value) {
+				if(!isset($this->kvp[$section])) {
+					$this->kvp[$section] = [];
+				}
+
+				if(!isset($this->kvp[$section][$key])) {
+					$this->kvp[$section][$key] = $value;
+				}
+			}
+		}
 	}
 
 	public function get(string $name):?string {
