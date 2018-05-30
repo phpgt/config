@@ -38,7 +38,7 @@ class Config {
 	}
 
 	public function get(string $name):?string {
-		$env = getenv($name);
+		$env = getenv(str_replace(".", "_", $name));
 		if($env) {
 			return $env;
 		}
