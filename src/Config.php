@@ -55,21 +55,15 @@ class Config {
 	}
 
 	protected function getSectionValue(string $name):?string {
-		$parts = explode($this->delimeter, $name);
-		$current = $this->kvp;
+		$parts = explode($this->delimeter, $name, 2);
+		$section = $this->getSection($parts[0]);
 
-		foreach($parts as $part) {
-			$current = $current[$part];
-			if(!$current) {
-				return null;
-			}
-		}
-
-		if(is_array($current)) {
+		if(is_null($section)
+		|| empty($parts[1])) {
 			return null;
 		}
 
-		return $current;
+		return $section->get($parts[1]);
 	}
 
 	protected function loadIni(string $directoryPath, string $filename):array {
