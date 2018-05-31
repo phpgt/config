@@ -32,4 +32,11 @@ class ConfigSectionTest extends TestCase {
 			self::assertArrayHasKey($key, $section);
 		}
 	}
+
+	public function testOffsetNotExists():void {
+		$section = new ConfigSection(self::DATA);
+		for($i = 0; $i < 10; $i++) {
+			self::assertArrayNotHasKey(uniqid(), $section);
+		}
+	}
 }
