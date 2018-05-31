@@ -3,21 +3,8 @@ namespace Gt\Config\Test;
 
 use Gt\Config\Config;
 use Gt\Config\Test\Helper\Helper;
-use PHPUnit\Framework\TestCase;
 
 class ConfigTest extends TestCase {
-	protected $tmp;
-
-	public function setUp() {
-		Helper::removeTmpDir();
-		$this->tmp = Helper::getTmpDir();
-		mkdir($this->tmp, 0775, true);
-	}
-
-	public function tearDown() {
-		Helper::removeTmpDir();
-	}
-
 	public function testNotPresentByDefault() {
 		$config = new Config();
 		$this->assertNull($config->get(uniqid()));
