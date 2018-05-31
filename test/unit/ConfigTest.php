@@ -66,6 +66,26 @@ class ConfigTest extends TestCase {
 	}
 
 	public function testFileOverride() {
+		$filePath = implode(DIRECTORY_SEPARATOR, [
+			$this->tmp,
+			"config.ini",
+		]);
+		file_put_contents($filePath, Helper::INI_SIMPLE);
+		$filePathDev = implode(DIRECTORY_SEPARATOR, [
+			$this->tmp,
+			"config.dev.ini",
+		]);
+		file_put_contents($filePathDev, Helper::INI_OVERRIDE_DEV);
+		$filePathProd = implode(DIRECTORY_SEPARATOR, [
+			$this->tmp,
+			"config.production.ini",
+		]);
+		file_put_contents($filePathProd, Helper::INI_OVERRIDE_PROD);
 
+		$config = new Config($this->tmp);
+		self::assertEquals("dev789override", $config->get("block1.value.nested"));
+		self::assertEquals("production.database", $config->get("database.host"));
+		self::assertEquals("secret-key-only-on-production", $config->get("exampleapi.key"));
+		self::assertEquals("example", $config->get("database.schema"));
 	}
 }
