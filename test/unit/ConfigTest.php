@@ -64,4 +64,8 @@ class ConfigTest extends TestCase {
 		self::assertEquals("ExampleAppChanged", $config->get("app.namespace"));
 		self::assertEquals("Something", $config->get("app.nothing"));
 	}
+
+	public function testFileOverride() {
+
+	}
 }
