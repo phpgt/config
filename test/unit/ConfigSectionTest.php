@@ -42,9 +42,9 @@ class ConfigSectionTest extends TestCase {
 	}
 
 	public function testOffsetGet():void {
-		$section = new ConfigSection(self::DATA);
+		$section = new ConfigSection(self::DATA["app"]);
 
-		foreach(self::DATA as $key => $value) {
+		foreach(self::DATA["app"] as $key => $value) {
 			self::assertArrayHasKey($key, $section);
 			self::assertEquals($value, $section[$key]);
 		}

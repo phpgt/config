@@ -94,7 +94,7 @@ class Config {
 			return null;
 		}
 
-		return $section->get($parts[1]);
+		return $section[$parts[1]];
 	}
 
 	protected function loadIni(string $directoryPath, string $filename):array {
