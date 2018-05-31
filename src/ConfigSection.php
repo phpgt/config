@@ -12,10 +12,14 @@ class ConfigSection implements ArrayAccess, Iterator {
 		$this->data = $data;
 	}
 
+	public function get(string $key):?string {
+		return $this->data[$key] ?? null;
+	}
+
 	/**
 	 * @link http://php.net/manual/en/iterator.current.php
 	 */
-	public function current() {
+	public function current():int {
 		$key = $this->getIteratorKey();
 		return $this->data[$key];
 	}
@@ -51,7 +55,6 @@ class ConfigSection implements ArrayAccess, Iterator {
 
 	/**
 	 * @link http://php.net/manual/en/arrayaccess.offsetexists.php
-	 * @param string $offset
 	 */
 	public function offsetExists($offset):bool {
 		return isset($this->data[$offset]);
@@ -59,26 +62,23 @@ class ConfigSection implements ArrayAccess, Iterator {
 
 	/**
 	 * @link http://php.net/manual/en/arrayaccess.offsetget.php
-	 * @param string $offset
 	 */
 	public function offsetGet($offset):?string {
-		return $this->data[$offset];
+		return $this->get($offset);
 	}
 
 	/**
 	 * @link http://php.net/manual/en/arrayaccess.offsetset.php
 	 */
 	public function offsetSet($offset, $value):void {
-		// TODO: Config should be immutable
-		// TODO: Implement offsetSet() method.
+		throw new ImmutableObjectMutationException();
 	}
 
 	/**
 	 * @link http://php.net/manual/en/arrayaccess.offsetunset.php
 	 */
 	public function offsetUnset($offset):void {
-		// TODO: Config should be immutable
-		// TODO: Implement offsetUnset() method.
+		throw new ImmutableObjectMutationException();
 	}
 
 	protected function getIteratorKey():?string {

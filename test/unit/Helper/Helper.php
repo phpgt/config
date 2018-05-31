@@ -13,7 +13,29 @@ value = 123
 valueNoSpaces=456
 value.nested = 789
 value.nested.again = 0123456789
+
+[database]
+host=localhost
+schema=example
+port=3306
 INI;
+
+	const INI_OVERRIDE_DEV = <<<INI
+[block1]
+value.nested = dev789override
+
+[database]
+host=dev.database
+INI;
+
+	const INI_OVERRIDE_PROD = <<<INI
+[database]
+host=my.production.database
+
+[exampleapi]
+key=secret-key-only-on-production
+INI;
+
 
 	public static function getBaseTmpDir() {
 		return implode(DIRECTORY_SEPARATOR, [
