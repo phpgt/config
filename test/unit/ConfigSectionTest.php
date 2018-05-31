@@ -24,4 +24,12 @@ class ConfigSectionTest extends TestCase {
 			self::assertEquals($value, self::DATA[$key]);
 		}
 	}
+
+	public function testOffsetExists():void {
+		$section = new ConfigSection(self::DATA);
+
+		foreach(self::DATA as $key => $value) {
+			self::assertArrayHasKey($key, $section);
+		}
+	}
 }
