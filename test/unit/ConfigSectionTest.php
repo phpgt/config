@@ -39,4 +39,13 @@ class ConfigSectionTest extends TestCase {
 			self::assertArrayNotHasKey(uniqid(), $section);
 		}
 	}
+
+	public function testOffsetGet():void {
+		$section = new ConfigSection(self::DATA);
+
+		foreach(self::DATA as $key => $value) {
+			self::assertArrayHasKey($key, $section);
+			self::assertEquals($value, $section[$key]);
+		}
+	}
 }

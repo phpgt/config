@@ -12,7 +12,7 @@ class ConfigSection implements ArrayAccess, Iterator {
 		$this->data = $data;
 	}
 
-	public function get(string $key):?string {
+	public function get(string $key):?array {
 		return $this->data[$key] ?? null;
 	}
 
@@ -63,7 +63,7 @@ class ConfigSection implements ArrayAccess, Iterator {
 	/**
 	 * @link http://php.net/manual/en/arrayaccess.offsetget.php
 	 */
-	public function offsetGet($offset):?string {
+	public function offsetGet($offset):?array {
 		return $this->get($offset);
 	}
 
