@@ -2,6 +2,7 @@
 namespace Gt\Config\Test;
 
 use Gt\Config\ConfigSection;
+use Gt\Config\ImmutableObjectMutationException;
 use PHPUnit\Framework\TestCase;
 
 class ConfigSectionTest extends TestCase {
@@ -47,5 +48,17 @@ class ConfigSectionTest extends TestCase {
 			self::assertArrayHasKey($key, $section);
 			self::assertEquals($value, $section[$key]);
 		}
+	}
+
+	public function testOffsetSet():void {
+		self::expectException(ImmutableObjectMutationException::class);
+		$section = new ConfigSection(self::DATA);
+		$section["example"] = "something";
+	}
+
+	public function testOffsetUnset():void {
+		self::expectException(ImmutableObjectMutationException::class);
+		$section = new ConfigSection(self::DATA);
+		unset($section["example"]);
 	}
 }
