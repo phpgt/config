@@ -52,8 +52,8 @@ class ConfigTest extends TestCase {
 	}
 
 	public function testEnvOverride() {
-		putenv("app.namespace=ExampleAppChanged");
-		putenv("app.nothing=Something");
+		putenv("app_namespace=ExampleAppChanged");
+		putenv("app_nothing=Something");
 
 		$filePath = implode(DIRECTORY_SEPARATOR, [
 			$this->tmp,
