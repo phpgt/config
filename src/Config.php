@@ -2,23 +2,40 @@
 namespace Gt\Config;
 
 class Config {
+	const INI_EXTENSION = "ini";
+	const FILE_OVERRIDE_DEV = "dev";
+	const FILE_OVERRIDE_DEPLOY = "deploy";
+	const FILE_OVERRIDE_PRODUCTION = "production";
+	const FILE_OVERRIDE_ORDER = [
+		self::FILE_OVERRIDE_DEV,
+		self::FILE_OVERRIDE_DEPLOY,
+		self::FILE_OVERRIDE_PRODUCTION,
+	];
+
+	protected $projectRoot;
 	protected $kvp = [];
 	protected $delimeter;
 
 	public function __construct(
 		string $projectRoot = "",
-		string $filename = "config.ini",
+		string $filename = "config",
 		string $delimeter = "."
 	) {
+		$this->projectRoot = $projectRoot;
 		$iniConfig = $this->loadIni($projectRoot, $filename);
 		$this->kvp = $iniConfig;
 		$this->delimeter = $delimeter;
 	}
 
-	public function setDefault(
-		string $defaultDirectoryPath,
-		string $filename = "config.default.ini"
+	public function mergeFromFile(
+		string $defaultDirectoryPath = null,
+		string $filename = "config.default",
+		bool $override = false
 	):void {
+		if(is_null($defaultDirectoryPath)) {
+			$defaultDirectoryPath = $this->projectRoot;
+		}
+
 		$defaults = $this->loadIni(
 			$defaultDirectoryPath,
 			$filename
@@ -33,7 +50,21 @@ class Config {
 				if(!isset($this->kvp[$section][$key])) {
 					$this->kvp[$section][$key] = $value;
 				}
+
+				if($override) {
+					$this->kvp[$section][$key] = $value;
+				}
 			}
+		}
+	}
+
+	public function loadOverrides():void {
+		foreach(self::FILE_OVERRIDE_ORDER as $override) {
+			$this->mergeFromFile(
+				$this->projectRoot,
+				"config.$override",
+				true
+			);
 		}
 	}
 
@@ -69,7 +100,11 @@ class Config {
 	protected function loadIni(string $directoryPath, string $filename):array {
 		$kvp = [];
 
-		$iniPath = $directoryPath . DIRECTORY_SEPARATOR . $filename;
+		$iniPath = $directoryPath
+			. DIRECTORY_SEPARATOR
+			. $filename
+			. "."
+			. self::INI_EXTENSION;
 
 		if(is_file($iniPath)) {
 			$kvp = parse_ini_file($iniPath, true);

@@ -83,8 +83,9 @@ class ConfigTest extends TestCase {
 		file_put_contents($filePathProd, Helper::INI_OVERRIDE_PROD);
 
 		$config = new Config($this->tmp);
+		$config->loadOverrides();
 		self::assertEquals("dev789override", $config->get("block1.value.nested"));
-		self::assertEquals("production.database", $config->get("database.host"));
+		self::assertEquals("my.production.database", $config->get("database.host"));
 		self::assertEquals("secret-key-only-on-production", $config->get("exampleapi.key"));
 		self::assertEquals("example", $config->get("database.schema"));
 	}
