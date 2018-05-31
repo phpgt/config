@@ -27,7 +27,7 @@ class Config {
 		$this->delimeter = $delimeter;
 	}
 
-	public function mergeFromFile(
+	public function mergeDefaults(
 		string $defaultDirectoryPath = null,
 		string $filename = "config.default",
 		bool $override = false
@@ -60,7 +60,7 @@ class Config {
 
 	public function loadOverrides():void {
 		foreach(self::FILE_OVERRIDE_ORDER as $override) {
-			$this->mergeFromFile(
+			$this->mergeDefaults(
 				$this->projectRoot,
 				"config.$override",
 				true

@@ -51,6 +51,27 @@ class ConfigTest extends TestCase {
 		self::assertNull($config->get("app"));
 	}
 
+	public function testLoadWithDefaults() {
+		$filePath = implode(DIRECTORY_SEPARATOR, [
+			$this->tmp,
+			"config.ini",
+		]);
+		file_put_contents($filePath, Helper::INI_SIMPLE);
+
+		$filePathDefault = implode(DIRECTORY_SEPARATOR, [
+			$this->tmp,
+			"config.default.ini",
+		]);
+		file_put_contents($filePathDefault, Helper::INI_DEFAULT);
+
+		$config = new Config($this->tmp);
+		$config->mergeDefaults();
+
+		self::assertEquals("ExampleApp", $config->get("app.namespace"));
+		self::assertEquals("789", $config->get("block1.value.nested"));
+		self::assertEquals("this appears by default", $config->get("block1.value.existsByDefault"));
+	}
+
 	public function testEnvOverride() {
 		putenv("app_namespace=ExampleAppChanged");
 		putenv("app_nothing=Something");

@@ -20,6 +20,16 @@ schema=example
 port=3306
 INI;
 
+	const INI_DEFAULT = <<<INI
+[app]
+namespace=App
+
+[block1]
+value.nested = default789
+value.existsByDefault = this appears by default
+INI;
+
+
 	const INI_OVERRIDE_DEV = <<<INI
 [block1]
 value.nested = dev789override
