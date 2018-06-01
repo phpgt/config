@@ -21,7 +21,7 @@ class ConfigSection implements ArrayAccess, Iterator {
 	/**
 	 * @link http://php.net/manual/en/iterator.current.php
 	 */
-	public function current():array {
+	public function current():string {
 		$key = $this->getIteratorKey();
 		return $this->data[$key];
 	}

@@ -34,6 +34,9 @@ class ConfigFactory {
 					$fileName,
 				])
 			);
+			if(is_null($config)) {
+				continue;
+			}
 
 			if($previousConfig) {
 				$config->merge($previousConfig);
@@ -41,9 +44,15 @@ class ConfigFactory {
 
 			$previousConfig = $config;
 		}
+
+		return $config;
 	}
 
-	public static function createFromPathName(string $pathName):Config {
+	public static function createFromPathName(string $pathName):?Config {
+		if(!is_file($pathName)) {
+			return null;
+		}
+
 		$parser = new IniParser($pathName);
 		return $parser->parse();
 	}

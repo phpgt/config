@@ -29,6 +29,11 @@ class ConfigFactoryTest extends TestCase {
 		file_put_contents($filePathProduction, Helper::INI_OVERRIDE_PROD);
 
 		$config = ConfigFactory::createForProject($this->tmp);
+		self::assertEquals("ExampleApp", $config->get("app.namespace"));
+		self::assertEquals("dev789override", $config->get("block1.value.nested"));
+		self::assertEquals("this appears by default", $config->get("block1.value.existsByDefault"));
+		self::assertEquals("my.production.database", $config->get("database.host"));
+		self::assertEquals("example", $config->get("database.schema"));
 	}
 
 	public function testCreateFromPathName():void {
