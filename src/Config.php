@@ -33,7 +33,7 @@ class Config {
 			return null;
 		}
 
-		return $section[$parts[1]];
+		return $section->get($parts[1]);
 	}
 
 	public function getSectionNames():array {
