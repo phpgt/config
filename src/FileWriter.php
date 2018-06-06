@@ -1,6 +1,9 @@
 <?php
 namespace Gt\Config;
 
+use Exception;
+use WriteiniFile\WriteiniFile;
+
 class FileWriter {
 	private $config;
 
@@ -9,18 +12,28 @@ class FileWriter {
 	}
 
 	public function writeIni(string $filePath):void {
-		$buffer = [];
+		if(!is_dir(dirname($filePath))) {
+			mkdir(dirname($filePath), 0775, true);
+		}
+
+		$writer = new WriteiniFile($filePath);
 
 		foreach($this->config->getSectionNames() as $sectionName) {
 			foreach($this->config->getSection($sectionName)
 			as $key => $value) {
-
+				$writer->add([
+					$sectionName => [
+						$key => $value,
+					]
+				]);
 			}
 		}
 
-		file_put_contents($filePath, implode(
-			"\n",
-			$buffer
-		));
+		try {
+			$writer->write();
+		}
+		catch(Exception $exception) {
+			throw new ConfigException("Unable to write to file: $filePath");
+		}
 	}
 }

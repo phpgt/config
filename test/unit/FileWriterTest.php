@@ -8,24 +8,46 @@ use Gt\Config\Test\Helper\Helper;
 
 class FileWriterTest extends TestCase {
 	public function testWrite():void {
-		$section = self::createMock(ConfigSection::class);
-		$section->method("current")
-			->willReturnOnConsecutiveCalls(
-				"oneValue",
-				"twoValue",
-				"threeValue"
-		);
+		$sectionValues = [
+			"one" => [
+				"firstKeyOfOne" => "value",
+				"secondKeyOfOne" => "another-value",
+			],
+			"two" => [
+				"firstKeyOfTwo" => 12345,
+				"secondKeyOfTwo" => true,
+			],
+			"three" => [
+				"fk-of-3" => "this?has!weird charac~'#ters",
+				"sk-of-3" => false,
+			]
+		];
+		$sectionOne = new ConfigSection("one", $sectionValues["one"]);
+		$sectionTwo = new ConfigSection("two", $sectionValues["two"]);
+		$sectionThree = new ConfigSection("three", $sectionValues["three"]);
+
 		$config = self::createMock(Config::class);
 		$config->method("getSectionNames")
-			->willReturn(["one", "two", "three"]);
+			->willReturn(array_keys($sectionValues));
 		$config->method("getSection")
-			->willReturn($section);
+			->willReturn(
+				$sectionOne,
+				$sectionTwo,
+				$sectionThree
+			);
 
 		$writer = new FileWriter($config);
 		$tmpFilePath = Helper::getTmpDir("output.ini");
 		$writer->writeIni($tmpFilePath);
-		var_dump($section->current());
-		var_dump($section->current());
-		var_dump($section->current());
+
+		$parsedData = parse_ini_file($tmpFilePath, true);
+		foreach($sectionValues as $sectionName => $section) {
+			foreach($section as $key => $value) {
+				self::assertEquals(
+					$value,
+					$parsedData[$sectionName][$key]
+				);
+			}
+		}
 	}
 }

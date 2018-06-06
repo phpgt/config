@@ -83,12 +83,12 @@ class ConfigSection implements ArrayAccess, Iterator {
 		unset($this->data[$offset]);
 	}
 
+	public function getName():string {
+		return $this->name;
+	}
+
 	protected function getIteratorKey():?string {
 		$keys = array_keys($this->data);
 		return $keys[$this->iteratorIndex] ?? null;
-	}
-
-	public function getName():string {
-		return $this->name;
 	}
 }
