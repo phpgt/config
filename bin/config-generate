@@ -1,0 +1,19 @@
+#!/usr/bin/env php
+<?php
+namespace Gt\Config;
+
+require_once(implode(DIRECTORY_SEPARATOR, [
+	__DIR__,
+	"..",
+	"vendor",
+	"autoload.php",
+]));
+
+try {
+	$generator = new Generator($argv);
+	$generator->generate();
+}
+catch(InvalidArgumentException $exception) {
+	fwrite(STDERR, $exception->getMessage() . PHP_EOL);
+	fwrite(STDERR, "config-generate TYPE [section_key=value]" . PHP_EOL);
+}
