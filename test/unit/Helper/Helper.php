@@ -55,11 +55,13 @@ INI;
 		]);
 	}
 
-	public static function getTmpDir() {
-		return implode(DIRECTORY_SEPARATOR, [
+	public static function getTmpDir(string...$parts) {
+		$parts = array_merge([
 			self::getBaseTmpDir(),
 			uniqid(),
-		]);
+		], $parts);
+
+		return implode(DIRECTORY_SEPARATOR, $parts);
 	}
 
 	public static function removeTmpDir() {

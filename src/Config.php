@@ -2,69 +2,12 @@
 namespace Gt\Config;
 
 class Config {
-	const INI_EXTENSION = "ini";
-	const FILE_OVERRIDE_DEV = "dev";
-	const FILE_OVERRIDE_DEPLOY = "deploy";
-	const FILE_OVERRIDE_PRODUCTION = "production";
-	const FILE_OVERRIDE_ORDER = [
-		self::FILE_OVERRIDE_DEV,
-		self::FILE_OVERRIDE_DEPLOY,
-		self::FILE_OVERRIDE_PRODUCTION,
-	];
+	/** @var ConfigSection[] */
+	protected $sectionList = [];
 
-	protected $projectRoot;
-	protected $kvp = [];
-	protected $delimeter;
-
-	public function __construct(
-		string $projectRoot = "",
-		string $filename = "config",
-		string $delimeter = "."
-	) {
-		$this->projectRoot = $projectRoot;
-		$iniConfig = $this->loadIni($projectRoot, $filename);
-		$this->kvp = $iniConfig;
-		$this->delimeter = $delimeter;
-	}
-
-	public function mergeDefaults(
-		string $defaultDirectoryPath = null,
-		string $filename = "config.default",
-		bool $override = false
-	):void {
-		if(is_null($defaultDirectoryPath)) {
-			$defaultDirectoryPath = $this->projectRoot;
-		}
-
-		$defaults = $this->loadIni(
-			$defaultDirectoryPath,
-			$filename
-		);
-
-		foreach($defaults as $section => $data) {
-			foreach($data as $key => $value) {
-				if(!isset($this->kvp[$section])) {
-					$this->kvp[$section] = [];
-				}
-
-				if(!isset($this->kvp[$section][$key])) {
-					$this->kvp[$section][$key] = $value;
-				}
-
-				if($override) {
-					$this->kvp[$section][$key] = $value;
-				}
-			}
-		}
-	}
-
-	public function loadOverrides():void {
-		foreach(self::FILE_OVERRIDE_ORDER as $override) {
-			$this->mergeDefaults(
-				$this->projectRoot,
-				"config.$override",
-				true
-			);
+	public function __construct(ConfigSection...$sectionList) {
+		foreach($sectionList as $section) {
+			$this->sectionList[$section->getName()] = $section;
 		}
 	}
 
@@ -78,15 +21,11 @@ class Config {
 	}
 
 	public function getSection(string $sectionName):?ConfigSection {
-		if(!isset($this->kvp[$sectionName])) {
-			return null;
-		}
-
-		return new ConfigSection($this->kvp[$sectionName]);
+		return $this->sectionList[$sectionName] ?? null;
 	}
 
 	protected function getSectionValue(string $name):?string {
-		$parts = explode($this->delimeter, $name, 2);
+		$parts = explode(".", $name, 2);
 		$section = $this->getSection($parts[0]);
 
 		if(is_null($section)
@@ -94,22 +33,34 @@ class Config {
 			return null;
 		}
 
-		return $section[$parts[1]];
+		return $section->get($parts[1]);
 	}
 
-	protected function loadIni(string $directoryPath, string $filename):array {
-		$kvp = [];
+	public function getSectionNames():array {
+		$names = [];
 
-		$iniPath = $directoryPath
-			. DIRECTORY_SEPARATOR
-			. $filename
-			. "."
-			. self::INI_EXTENSION;
-
-		if(is_file($iniPath)) {
-			$kvp = parse_ini_file($iniPath, true);
+		foreach($this->sectionList as $section) {
+			$names []= $section->getName();
 		}
 
-		return $kvp;
+		return $names;
+	}
+
+	public function merge(Config $configToOverride):void {
+		foreach($configToOverride->getSectionNames() as $sectionName) {
+			if(isset($this->sectionList[$sectionName])) {
+				foreach($configToOverride->getSection($sectionName)
+				as $key => $value) {
+					if(empty($this->sectionList[$sectionName][$key])) {
+						$this->sectionList[$sectionName][$key] = $value;
+					}
+				}
+			}
+			else {
+				$this->sectionList[$sectionName] = $configToOverride->getSection(
+					$sectionName
+				);
+			}
+		}
 	}
 }

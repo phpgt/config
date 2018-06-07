@@ -2,22 +2,10 @@
 namespace Gt\Config\Test;
 
 use Gt\Config\Config;
+use Gt\Config\ConfigSection;
 use Gt\Config\Test\Helper\Helper;
-use PHPUnit\Framework\TestCase;
 
 class ConfigTest extends TestCase {
-	protected $tmp;
-
-	public function setUp() {
-		Helper::removeTmpDir();
-		$this->tmp = Helper::getTmpDir();
-		mkdir($this->tmp, 0775, true);
-	}
-
-	public function tearDown() {
-		Helper::removeTmpDir();
-	}
-
 	public function testNotPresentByDefault() {
 		$config = new Config();
 		$this->assertNull($config->get(uniqid()));
@@ -39,75 +27,29 @@ class ConfigTest extends TestCase {
 		self::assertEquals($value, $config->get($key));
 	}
 
-	public function testLoadFromIni() {
-		$filePath = implode(DIRECTORY_SEPARATOR, [
-			$this->tmp,
-			"config.ini",
-		]);
-		file_put_contents($filePath, Helper::INI_SIMPLE);
-		$config = new Config($this->tmp);
-		self::assertEquals("ExampleApp", $config->get("app.namespace"));
-		self::assertNull($config->get("app.nothing"));
-		self::assertNull($config->get("app"));
-	}
+	public function testLoadSection() {
+		$section = self::createMock(ConfigSection::class);
+		$section->method("getName")
+			->willReturn("test");
+		$section->method("get")
+			->willReturn("value123");
 
-	public function testLoadWithDefaults() {
-		$filePath = implode(DIRECTORY_SEPARATOR, [
-			$this->tmp,
-			"config.ini",
-		]);
-		file_put_contents($filePath, Helper::INI_SIMPLE);
-
-		$filePathDefault = implode(DIRECTORY_SEPARATOR, [
-			$this->tmp,
-			"config.default.ini",
-		]);
-		file_put_contents($filePathDefault, Helper::INI_DEFAULT);
-
-		$config = new Config($this->tmp);
-		$config->mergeDefaults();
-
-		self::assertEquals("ExampleApp", $config->get("app.namespace"));
-		self::assertEquals("789", $config->get("block1.value.nested"));
-		self::assertEquals("this appears by default", $config->get("block1.value.existsByDefault"));
+		$config = new Config($section);
+		self::assertEquals("value123", $config->get("test.example"));
 	}
 
 	public function testEnvOverride() {
 		putenv("app_namespace=ExampleAppChanged");
 		putenv("app_nothing=Something");
 
-		$filePath = implode(DIRECTORY_SEPARATOR, [
-			$this->tmp,
-			"config.ini",
-		]);
-		file_put_contents($filePath, Helper::INI_SIMPLE);
-		$config = new Config($this->tmp);
+		$section = self::createMock(ConfigSection::class);
+		$section->method("getName")
+			->willReturn("app");
+		$section->method("get")
+			->willReturn("exampleApp");
+
+		$config = new Config($section);
 		self::assertEquals("ExampleAppChanged", $config->get("app.namespace"));
 		self::assertEquals("Something", $config->get("app.nothing"));
-	}
-
-	public function testFileOverride() {
-		$filePath = implode(DIRECTORY_SEPARATOR, [
-			$this->tmp,
-			"config.ini",
-		]);
-		file_put_contents($filePath, Helper::INI_SIMPLE);
-		$filePathDev = implode(DIRECTORY_SEPARATOR, [
-			$this->tmp,
-			"config.dev.ini",
-		]);
-		file_put_contents($filePathDev, Helper::INI_OVERRIDE_DEV);
-		$filePathProd = implode(DIRECTORY_SEPARATOR, [
-			$this->tmp,
-			"config.production.ini",
-		]);
-		file_put_contents($filePathProd, Helper::INI_OVERRIDE_PROD);
-
-		$config = new Config($this->tmp);
-		$config->loadOverrides();
-		self::assertEquals("dev789override", $config->get("block1.value.nested"));
-		self::assertEquals("my.production.database", $config->get("database.host"));
-		self::assertEquals("secret-key-only-on-production", $config->get("exampleapi.key"));
-		self::assertEquals("example", $config->get("database.schema"));
 	}
 }

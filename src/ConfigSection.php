@@ -5,10 +5,12 @@ use ArrayAccess;
 use Iterator;
 
 class ConfigSection implements ArrayAccess, Iterator {
+	protected $name;
 	protected $data;
 	protected $iteratorIndex;
 
-	public function __construct(array $data) {
+	public function __construct(string $name, array $data) {
+		$this->name = $name;
 		$this->data = $data;
 	}
 
@@ -19,7 +21,7 @@ class ConfigSection implements ArrayAccess, Iterator {
 	/**
 	 * @link http://php.net/manual/en/iterator.current.php
 	 */
-	public function current():array {
+	public function current():string {
 		$key = $this->getIteratorKey();
 		return $this->data[$key];
 	}
@@ -71,14 +73,18 @@ class ConfigSection implements ArrayAccess, Iterator {
 	 * @link http://php.net/manual/en/arrayaccess.offsetset.php
 	 */
 	public function offsetSet($offset, $value):void {
-		throw new ImmutableObjectMutationException();
+		$this->data[$offset] = $value;
 	}
 
 	/**
 	 * @link http://php.net/manual/en/arrayaccess.offsetunset.php
 	 */
 	public function offsetUnset($offset):void {
-		throw new ImmutableObjectMutationException();
+		unset($this->data[$offset]);
+	}
+
+	public function getName():string {
+		return $this->name;
 	}
 
 	protected function getIteratorKey():?string {
