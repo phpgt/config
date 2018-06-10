@@ -10,13 +10,20 @@ class ConfigFactory {
 		"production",
 	];
 
-	public static function createForProject(string $projectRoot):Config {
+	public static function createForProject(
+		string $projectRoot,
+		string $defaultConfigPathName = null
+	):Config {
 		$order = array_merge(
 			[self::FILE_DEFAULT, ""],
 			self::FILE_OVERRIDE_ORDER
 		);
 
-		$previousConfig = null;
+		if(!is_null($defaultConfigPathName)) {
+			$previousConfig = ConfigFactory::createFromPathName(
+				$defaultConfigPathName
+			);
+		}
 
 		foreach($order as $file) {
 			$fileName = "config";
@@ -45,7 +52,7 @@ class ConfigFactory {
 			$previousConfig = $config;
 		}
 
-		return $config;
+		return $config ?? $previousConfig;
 	}
 
 	public static function createFromPathName(string $pathName):?Config {
