@@ -21,7 +21,7 @@ class FileWriter {
 		foreach($this->config->getSectionNames() as $sectionName) {
 			foreach($this->config->getSection($sectionName)
 			as $key => $value) {
-				$writer->add([
+				$writer->update([
 					$sectionName => [
 						$key => $value,
 					]
