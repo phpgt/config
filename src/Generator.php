@@ -13,7 +13,8 @@ class Generator {
 		$this->checkArgs($argv);
 
 		array_shift($argv);
-		$this->filePath = array_shift($argv);
+		$suffix = array_shift($argv);
+		$this->filePath = "config.$suffix.ini";
 		$kvp = $this->splitKvp($argv);
 		$sectionList = $this->splitDotNotation($kvp);
 		$this->sectionData = $this->getSectionData($sectionList);
@@ -89,7 +90,7 @@ class Generator {
 		$result = [];
 
 		foreach($sectionList as $sectionName => $data) {
-			$result[$sectionName] = new ConfigSection($sectionName, $data);
+			$result []= new ConfigSection($sectionName, $data);
 		}
 
 		return $result;
