@@ -13,6 +13,10 @@
 
     "license": "MIT",
 
+    "bin": [
+        "bin/config-generate"
+    ],
+
     "authors": [
         {
             "name": "Greg Bowler",
