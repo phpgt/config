@@ -25,6 +25,8 @@ class ConfigFactory {
 			);
 		}
 
+		$previousConfig = null;
+
 		foreach($order as $file) {
 			$fileName = "config";
 			$fileName .= ".";
