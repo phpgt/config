@@ -19,13 +19,13 @@ class ConfigFactory {
 			self::FILE_OVERRIDE_ORDER
 		);
 
+		$previousConfig = null;
+
 		if(!is_null($defaultConfigPathName)) {
 			$previousConfig = ConfigFactory::createFromPathName(
 				$defaultConfigPathName
 			);
 		}
-
-		$previousConfig = null;
 
 		foreach($order as $file) {
 			$fileName = "config";
