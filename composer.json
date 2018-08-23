@@ -8,7 +8,7 @@
         "magicalex/write-ini-file": "v1.2.3"
     },
     "require-dev": {
-        "phpunit/phpunit": "6.4.*"
+        "phpunit/phpunit": "6.4.*|7.3.*"
     },
 
     "license": "MIT",
