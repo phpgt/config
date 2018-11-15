@@ -28,7 +28,7 @@ nginx.conf:
 
 ```
 location ~ \.php$ {
-	fastcgi_pass	unix:/var/run/php/php7.0-fpm.sock;
+	fastcgi_pass	unix:/var/run/php/php7.1-fpm.sock;
 	fastcgi_param	database_password	super-secret-passw0rd;
 	include		fastcgi_params;
 }
