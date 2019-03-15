@@ -7,13 +7,13 @@ use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 class TestCase extends PHPUnitTestCase {
 	protected $tmp;
 
-	public function setUp() {
+	public function setUp():void {
 		Helper::removeTmpDir();
 		$this->tmp = Helper::getTmpDir();
 		mkdir($this->tmp, 0775, true);
 	}
 
-	public function tearDown() {
+	public function tearDown():void {
 		Helper::removeTmpDir();
 	}
 }
