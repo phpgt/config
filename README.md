@@ -1,6 +1,8 @@
-# Load configuration from ini files or environment variables.
+# Manage configuration with ini files and environment variables.
 
-Manage your project configuration by defining defaults, which are overridden by ini files, which are overridden by and exposed as environment variables.
+Manage your project configuration by defining defaults, that can be overridden by ini files and environment variables.
+
+Also provides functionality for generating ini files from the CLI.
 
 Documentation: https://php.gt/docs/config
 
@@ -22,7 +24,9 @@ Documentation: https://php.gt/docs/config
 	<img src="https://badge.status.php.gt/config-docs.svg" alt="PHP.Gt/Config documentation" />
 </a>
 
-## Example usage:
+## Example usage - loading project configuration:
+
+A project's configuration can be split across multiple files. The following example shows how a secret can be supplied through the environment, which is used to override the default value defined within config.ini, and also shows how other named config files can be used.
 
 nginx.conf:
 
@@ -53,18 +57,32 @@ key = jungfnyyguvffubhgvat
 secret = guvfvfnybpnyfubcgurerfabguvatsbelbhurer
 ```
 
+config.dev.ini:
+
+```ini
+[database]
+host = localhost
+```
+
 example.php:
 
 ```php
 // Load config.ini
 $config = new Config("/path/to/project");
 
-// Note that the database password is overriden in the environment (from nginx).
-echo $config->get("database.host");		// db.example.com
+// Note that the database password is overriden in the environment (from nginx)
+// and the host is overridden by the development ini file.
+echo $config->get("database.host");		// localhost
 echo $config->get("database.port");		// 6612
 echo $config->get("database.password");		// super-secret-passw0rd
 ```
 
-## Features at a glance
+## Example usage - generating configuration files:
 
-TODO: List out features, such as parsing abilities.
+Sometimes is it useful to generate config files on-the-fly, such as from Continuous Integration scripts. Below shows a quick example of how to generate a `config.deploy.ini` file with a few key-values that will override the default.
+
+```
+vendor/bin/config-generate deploy "shopapi.key=test-api-key" "database.schema=local_shop_$BRANCH_NAME"
+```
+
+The above command will create a `config.deploy.ini` file (note the first argument of "deploy") and provide overrides for two ini keys using dot notation. Note that because this command will be run within a continuous integration setting, we are expecting there to be a $BRANCH_NAME variable set for us, allowing us to use a schema name containing the current branch. 

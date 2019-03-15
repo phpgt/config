@@ -1,6 +1,6 @@
 {
     "name": "phpgt/config",
-    "description": "Load configuration from ini files or environment variables.",
+    "description": "Manage configuration with ini files and environment variables.",
     "type": "library",
 
     "require": {
