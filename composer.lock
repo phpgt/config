@@ -4,24 +4,24 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c57e260d64dd92ba27ac2be31f5edaa9",
+    "content-hash": "5f2392c1b69ab9794e1cd8b6cbc6e8ba",
     "packages": [
         {
             "name": "magicalex/write-ini-file",
-            "version": "v1.2.4",
+            "version": "2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Magicalex/WriteiniFile.git",
-                "reference": "3a933e8222ed2b0ff724c2d4278666fa257e42ac"
+                "reference": "5c71aac805d5636d743e493388772e226cb3086c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Magicalex/WriteiniFile/zipball/3a933e8222ed2b0ff724c2d4278666fa257e42ac",
-                "reference": "3a933e8222ed2b0ff724c2d4278666fa257e42ac",
+                "url": "https://api.github.com/repos/Magicalex/WriteiniFile/zipball/5c71aac805d5636d743e493388772e226cb3086c",
+                "reference": "5c71aac805d5636d743e493388772e226cb3086c",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.6.0"
+                "php": ">=5.6.1"
             },
             "require-dev": {
                 "php-coveralls/php-coveralls": "2.1.0",
@@ -39,7 +39,7 @@
             ],
             "authors": [
                 {
-                    "name": "magicalex",
+                    "name": "Magicalex",
                     "email": "magicalex@mondedie.fr"
                 }
             ],
@@ -51,7 +51,7 @@
                 "write",
                 "write_ini_file"
             ],
-            "time": "2018-09-09T12:40:38+00:00"
+            "time": "2019-04-21T23:21:45+00:00"
         }
     ],
     "packages-dev": [
