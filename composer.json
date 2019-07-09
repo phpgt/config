@@ -1,37 +1,37 @@
 {
-    "name": "phpgt/config",
-    "description": "Manage configuration with ini files and environment variables.",
-    "type": "library",
+	"name": "phpgt/config",
+	"description": "Manage configuration with ini files and environment variables.",
+	"type": "library",
 
-    "require": {
-        "php": ">=7.2.0",
-        "magicalex/write-ini-file": "v1.2.4"
-    },
-    "require-dev": {
-        "phpunit/phpunit": "8.*"
-    },
+	"require": {
+		"php": ">=7.2.0",
+		"magicalex/write-ini-file": "v1.2.4"
+	},
+	"require-dev": {
+		"phpunit/phpunit": "8.*"
+	},
 
-    "license": "MIT",
+	"license": "MIT",
 
-    "bin": [
-        "bin/config-generate"
-    ],
+	"bin": [
+		"bin/config-generate"
+	],
 
-    "authors": [
-        {
-            "name": "Greg Bowler",
-            "email": "greg.bowler@g105b.com"
-        }
-    ],
+	"authors": [
+		{
+			"name": "Greg Bowler",
+			"email": "greg.bowler@g105b.com"
+		}
+	],
 
-    "autoload": {
-        "psr-4": {
-            "Gt\\Config\\": "./src"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Gt\\Config\\Test\\": "./test/unit"
-        }
-    }
+	"autoload": {
+		"psr-4": {
+			"Gt\\Config\\": "./src"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"Gt\\Config\\Test\\": "./test/unit"
+		}
+	}
 }
