@@ -5,7 +5,7 @@
 
 	"require": {
 		"php": ">=7.2.0",
-		"magicalex/write-ini-file": "v1.2.4"
+		"magicalex/write-ini-file": "v2.0.1"
 	},
 	"require-dev": {
 		"phpunit/phpunit": "8.*"
