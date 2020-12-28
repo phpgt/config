@@ -8,7 +8,7 @@ Documentation: https://php.gt/docs/config
 
 ***
 
-<a href="https://circleci.com/gh/PhpGt/Config" target="_blank">
+<a href="https://github.com/PhpGt/Config/actions" target="_blank">
 	<img src="https://badge.status.php.gt/config-build.svg" alt="Build status" />
 </a>
 <a href="https://scrutinizer-ci.com/g/PhpGt/Config" target="_blank">

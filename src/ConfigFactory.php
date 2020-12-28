@@ -65,8 +65,4 @@ class ConfigFactory {
 		$parser = new IniParser($pathName);
 		return $parser->parse();
 	}
-
-	public static function createFromArray(array $input):Config {
-
-	}
 }
