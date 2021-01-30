@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "35ec8b7f93dbbc96bee2a9d088ad12b7",
+    "content-hash": "7a2989887ad691534bdace58f894e9a8",
     "packages": [
         {
             "name": "magicalex/write-ini-file",
@@ -55,7 +55,7 @@
         },
         {
             "name": "phpgt/typesafegetter",
-            "version": "v1.2.0",
+            "version": "v1.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PhpGt/TypeSafeGetter.git",
