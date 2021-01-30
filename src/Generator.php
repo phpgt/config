@@ -74,6 +74,8 @@ class Generator {
 	}
 
 	/**
+	 * @param array<string, string> $data
+	 * @return array<string, array<string, string>>
 	 */
 	protected function splitDotNotation(array $data):array {
 		$result = [];
@@ -96,6 +98,7 @@ class Generator {
 	}
 
 	/**
+	 * @param array<string, array<string, string>> $sectionList
 	 * @return array<int, ConfigSection>
 	 */
 	protected function getSectionData(array $sectionList):array {

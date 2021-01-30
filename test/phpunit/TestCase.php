@@ -11,6 +11,7 @@ class TestCase extends PHPUnitTestCase {
 		Helper::removeTmpDir();
 		$this->tmp = Helper::getTmpDir();
 		mkdir($this->tmp, 0775, true);
+		chdir($this->tmp);
 	}
 
 	public function tearDown():void {
