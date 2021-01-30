@@ -71,4 +71,19 @@ class ConfigSectionTest extends TestCase {
 		self::expectException(BadMethodCallException::class);
 		$sut["something"] = "can not set";
 	}
+
+	public function testWith() {
+		$data = [
+			"name" => "unit test",
+			"number" => "123",
+			"decimal" => "123.456",
+			"birthday" => "1988-04-05",
+		];
+
+		$sutOriginal = new ConfigSection("example", $data);
+		$sut = $sutOriginal->with("added", "new value");
+		self::assertNotSame($sutOriginal, $sut);
+		self::assertNull($sutOriginal->get("added"));
+		self::assertEquals("new value", $sut->get("added"));
+	}
 }
