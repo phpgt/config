@@ -26,6 +26,13 @@
 		}
 	],
 
+	"funding": [
+		{
+			"type": "github",
+			"url": "https://github.com/sponsors/PhpGt"
+		}
+	],
+
 	"autoload": {
 		"psr-4": {
 			"Gt\\Config\\": "./src"

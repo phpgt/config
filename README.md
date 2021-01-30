@@ -79,7 +79,7 @@ echo $config->get("database.password");		// super-secret-passw0rd
 
 ## Example usage - generating configuration files:
 
-Sometimes is it useful to generate config files on-the-fly, such as from Continuous Integration scripts. Below shows a quick example of how to generate a `config.deploy.ini` file with a few key-values that will override the default.
+Sometimes it's useful to generate config files on-the-fly, such as from Continuous Integration scripts. Below shows a quick example of how to generate a `config.deploy.ini` file with a few key-values that will override the default.
 
 ```
 vendor/bin/config-generate deploy "shopapi.key=test-api-key" "database.schema=local_shop_$BRANCH_NAME"
