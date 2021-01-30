@@ -29,6 +29,12 @@ class ConfigSection implements ArrayAccess, Iterator {
 		return $this->data[$name] ?? null;
 	}
 
+	public function with(string $key, string $value):static {
+		$clone = clone $this;
+		$clone->data[$key] = $value;
+		return $clone;
+	}
+
 	/**
 	 * @link http://php.net/manual/en/iterator.current.php
 	 */
@@ -96,12 +102,6 @@ class ConfigSection implements ArrayAccess, Iterator {
 
 	public function getName():string {
 		return $this->name;
-	}
-
-	public function with(string $key, string $value):static {
-		$clone = clone $this;
-		$clone->data[$key] = $value;
-		return $clone;
 	}
 
 	protected function getIteratorKey():?string {
