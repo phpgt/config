@@ -5,10 +5,9 @@ use Exception;
 use WriteiniFile\WriteiniFile;
 
 class FileWriter {
-	private $config;
-
-	public function __construct(Config $config) {
-		$this->config = $config;
+	public function __construct(
+		private Config $config
+	) {
 	}
 
 	public function writeIni(string $filePath):void {

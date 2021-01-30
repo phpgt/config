@@ -4,7 +4,8 @@
 	"type": "library",
 
 	"require": {
-		"php": ">=7.2.0",
+		"php": ">=8.0",
+		"phpgt/typesafegetter": "1.2.0",
 		"magicalex/write-ini-file": "v1.2.4"
 	},
 	"require-dev": {

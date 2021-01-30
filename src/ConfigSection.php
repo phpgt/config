@@ -2,20 +2,31 @@
 namespace Gt\Config;
 
 use ArrayAccess;
+use BadMethodCallException;
+use Gt\TypeSafeGetter\NullableTypeSafeGetter;
 use Iterator;
 
+/**
+ * @implements ArrayAccess<string, string>
+ * @implements Iterator<string, string>
+ */
 class ConfigSection implements ArrayAccess, Iterator {
-	protected $name;
-	protected $data;
-	protected $iteratorIndex;
+	use NullableTypeSafeGetter;
 
+	protected string $name;
+	/** @var array<string, string> */
+	protected array $data;
+	protected int $iteratorIndex;
+
+	/** @param array<string, string> $data */
 	public function __construct(string $name, array $data) {
 		$this->name = $name;
 		$this->data = $data;
+		$this->iteratorIndex = 0;
 	}
 
-	public function get(string $key):?string {
-		return $this->data[$key] ?? null;
+	public function get(string $name):?string {
+		return $this->data[$name] ?? null;
 	}
 
 	/**
@@ -73,18 +84,24 @@ class ConfigSection implements ArrayAccess, Iterator {
 	 * @link http://php.net/manual/en/arrayaccess.offsetset.php
 	 */
 	public function offsetSet($offset, $value):void {
-		$this->data[$offset] = $value;
+		throw new BadMethodCallException("Immutable object can not be mutated");
 	}
 
 	/**
 	 * @link http://php.net/manual/en/arrayaccess.offsetunset.php
 	 */
 	public function offsetUnset($offset):void {
-		unset($this->data[$offset]);
+		throw new BadMethodCallException("Immutable object can not be mutated");
 	}
 
 	public function getName():string {
 		return $this->name;
+	}
+
+	public function with(string $key, string $value):static {
+		$clone = clone $this;
+		$clone->data[$key] = $value;
+		return $clone;
 	}
 
 	protected function getIteratorKey():?string {

@@ -1,9 +1,14 @@
 <?php
 namespace Gt\Config;
 
-class Config {
+use Gt\TypeSafeGetter\NullableTypeSafeGetter;
+use Gt\TypeSafeGetter\TypeSafeGetter;
+
+class Config implements TypeSafeGetter {
+	use NullableTypeSafeGetter;
+
 	/** @var ConfigSection[] */
-	protected $sectionList = [];
+	protected array $sectionList = [];
 
 	public function __construct(ConfigSection...$sectionList) {
 		foreach($sectionList as $section) {
@@ -36,6 +41,7 @@ class Config {
 		return $section->get($parts[1]);
 	}
 
+	/** @return array<string> */
 	public function getSectionNames():array {
 		$names = [];
 
@@ -52,7 +58,7 @@ class Config {
 				foreach($configToOverride->getSection($sectionName)
 				as $key => $value) {
 					if(empty($this->sectionList[$sectionName][$key])) {
-						$this->sectionList[$sectionName][$key] = $value;
+						$this->sectionList[$sectionName] = $this->sectionList[$sectionName]->with($key, $value);
 					}
 				}
 			}

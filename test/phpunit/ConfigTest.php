@@ -1,9 +1,9 @@
 <?php
 namespace Gt\Config\Test;
 
+use DateTimeImmutable;
 use Gt\Config\Config;
 use Gt\Config\ConfigSection;
-use Gt\Config\Test\Helper\Helper;
 
 class ConfigTest extends TestCase {
 	public function testNotPresentByDefault() {
@@ -51,5 +51,19 @@ class ConfigTest extends TestCase {
 		$config = new Config($section);
 		self::assertEquals("ExampleAppChanged", $config->get("app.namespace"));
 		self::assertEquals("Something", $config->get("app.nothing"));
+	}
+
+	public function testTypeSafeGetter() {
+		putenv("my-int=123");
+		putenv("my-float=123.456");
+		putenv("my-birthday=576264065");
+		$sut = new Config();
+		self::assertSame(123, $sut->getInt("my-int"));
+		self::assertSame(123, $sut->getInt("my-float"));
+		self::assertSame(123.456, $sut->getFloat("my-float"));
+		$dateTime = $sut->getDateTime("my-birthday");
+		self::assertInstanceOf(DateTimeImmutable::class, $dateTime);
+		self::assertEquals("April 5th 1988", $dateTime->format("F jS Y"));
+		self::assertNull($sut->getFloat("nothing-here"));
 	}
 }
