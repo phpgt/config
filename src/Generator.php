@@ -6,9 +6,11 @@ class Generator {
 		"dev", "deploy", "prod",
 	];
 
-	protected $sectionData;
-	protected $filePath;
+	/** @var array<int, ConfigSection> */
+	protected array $sectionData;
+	protected string $filePath;
 
+	/** @param array<int, string> $argv */
 	public function __construct(array $argv) {
 		$this->checkArgs($argv);
 
@@ -26,6 +28,7 @@ class Generator {
 		$writer->writeIni($this->filePath);
 	}
 
+	/** @param array<int, string> $args */
 	protected function checkArgs(array $args):void {
 		if(count($args) <=2) {
 			throw new InvalidArgumentException(
@@ -51,6 +54,10 @@ class Generator {
 		}
 	}
 
+	/**
+	 * @param array<int, string> $argv
+	 * @return array<string, string>
+	 */
 	protected function splitKvp(array $argv):array {
 		$kvp = [];
 
@@ -66,6 +73,10 @@ class Generator {
 		return $kvp;
 	}
 
+	/**
+	 * @param array<string, string> $data
+	 * @return array<string, array<string, string>>
+	 */
 	protected function splitDotNotation(array $data):array {
 		$result = [];
 
@@ -86,11 +97,18 @@ class Generator {
 		return $result;
 	}
 
+	/**
+	 * @param array<string, array<string, string>> $sectionList
+	 * @return array<int, ConfigSection>
+	 */
 	protected function getSectionData(array $sectionList):array {
 		$result = [];
 
 		foreach($sectionList as $sectionName => $data) {
-			$result []= new ConfigSection($sectionName, $data);
+			array_push(
+				$result,
+				new ConfigSection($sectionName, $data)
+			);
 		}
 
 		return $result;

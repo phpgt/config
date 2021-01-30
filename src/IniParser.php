@@ -2,11 +2,9 @@
 namespace Gt\Config;
 
 class IniParser {
-	protected $pathName;
-
-	public function __construct(string $pathName) {
-		$this->pathName = $pathName;
-	}
+	public function __construct(
+		protected string $pathName
+	) {}
 
 	public function parse():Config {
 		$data = parse_ini_file(
